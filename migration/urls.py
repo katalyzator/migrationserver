@@ -16,13 +16,19 @@ Including another URLconf
 from django.conf.urls import url, include, patterns
 from django.conf.urls.static import static
 from django.contrib import admin
-from solid_i18n.urls import solid_i18n_patterns
+from tastypie.api import Api
+from main.api import *
 
 from migration import settings
+
+v1 = Api(api_name='v1')
+v1.register(NewskgResource())
+v1.register(NewsruResource())
 
 urlpatterns = patterns('',
                        url(r'^jet/', include('jet.urls', 'jet')),
                        url(r'^admin/', admin.site.urls),
+                       url(r'^api/', include(v1.urls)),
                        url(r'^ckeditor/', include('ckeditor_uploader.urls')),
                        url(r'^newsru/$', 'main.views.newsru_view', name='newsru'),
                        url(r'^newskg/$', 'main.views.newskg_view', name='newskg'),
