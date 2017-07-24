@@ -1,5 +1,4 @@
 # coding=utf-8
-from django.core import serializers
 from django.http import JsonResponse, HttpResponse
 from .models import *
 import requests
@@ -47,14 +46,12 @@ def blacklist_view(request):
     l = Nakaz(name=nakaz, fio=name)
     l.save()
 
-    result = Nakaz.objects.get(id=l.id)
+    item = Nakaz.objects.get(id=l.id)
+
+    result = {'id': item.id, 'name': item.name, 'fio': item.fio}
 
     # dict_obj = model_to_dict(result)
 
-    data = serializers.serialize('json', [result, ])
+    # data = serializers.serialize('json', [result, ])
 
-    struct = json.loads(data)
-
-    data = json.dumps(struct)
-
-    return JsonResponse(data, safe=False)
+    return JsonResponse(result)
