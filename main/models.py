@@ -38,3 +38,11 @@ class Newskg(models.Model):
 
     def __unicode__(self):
         return smart_unicode(self.name)
+
+
+class Nakaz(models.Model):
+    name = models.CharField(max_length=1000)
+    fio = models.CharField(max_length=255)
+
+    def __unicode__(self):
+        return self.name

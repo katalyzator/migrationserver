@@ -31,6 +31,7 @@ urlpatterns = patterns('',
                        url(r'^api/', include(v1.urls)),
                        url(r'^ckeditor/', include('ckeditor_uploader.urls')),
                        url(r'^newsru/$', 'main.views.newsru_view', name='newsru'),
+                       url(r'^blacklist/$', 'main.views.blacklist_view', name='blacklist'),
                        url(r'^newskg/$', 'main.views.newskg_view', name='newskg'),
                        )
 
