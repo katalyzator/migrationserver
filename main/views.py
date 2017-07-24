@@ -26,8 +26,13 @@ def blacklist_view(request):
     except ImportError:
         from bs4 import BeautifulSoup
 
+    fio = request.GET.get('fio')
+    d = request.GET.get('d')
+    m = request.GET.get('m')
+    y = request.GET.get('y')
+
     r = requests.post('http://www.ssm.gov.kg/blacklist/',
-                      data={'fio': 'Кенешов', 'd': '19', 'm': '10', 'y': '1984'})
+                      data={'fio': fio, 'd': d, 'm': m, 'y': y})
 
     id = r.text[5796:5801]
 
@@ -48,7 +53,7 @@ def blacklist_view(request):
 
     item = Nakaz.objects.get(id=l.id)
 
-    result = {'id': item.id, 'name': item.name, 'fio': item.fio}
+    result = {'nakaz': item.name, 'fio': item.fio}
 
     # dict_obj = model_to_dict(result)
 
