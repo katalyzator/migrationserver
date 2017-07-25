@@ -46,11 +46,9 @@ def blacklist_view(request):
 
     nakaz = parsed_html.body.find('p').text
 
-    l = Nakaz(name=nakaz, fio=name)
-    l.save()
+    if r.text[5555:5601].encode("utf-8") == 'Указанная фамилия в «Чёрном списке» не найдена':
+        result = {'nakaz': None, 'fio': None}
+    else:
+        result = {'nakaz': nakaz, 'fio': name}
 
-    item = Nakaz.objects.get(id=l.id)
-
-    result = {'nakaz': item.name, 'fio': item.fio}
-
-    return JsonResponse(result)
+    return JsonResponse(dict(data=result))
