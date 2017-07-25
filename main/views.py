@@ -39,8 +39,6 @@ def blacklist_view(request):
     name = r.text[5832:5860]
 
     link = 'http://www.ssm.gov.kg/blacklist/info/' + id
-    # f = requests.get(link)
-    # nakaz = (f.text).encode("utf-8")
 
     html = requests.get(link)
     text = html.text
@@ -54,9 +52,5 @@ def blacklist_view(request):
     item = Nakaz.objects.get(id=l.id)
 
     result = {'nakaz': item.name, 'fio': item.fio}
-
-    # dict_obj = model_to_dict(result)
-
-    # data = serializers.serialize('json', [result, ])
 
     return JsonResponse(result)
