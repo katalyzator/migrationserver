@@ -34,21 +34,35 @@ def blacklist_view(request):
     r = requests.post('http://www.ssm.gov.kg/blacklist/',
                       data={'fio': fio, 'd': d, 'm': m, 'y': y})
 
-    id = r.text[5796:5801]
+    bs_r = BeautifulSoup(r.text)
 
-    name = r.text[5832:5860]
+    # id = r.text[5700:5801]
+    if bs_r.find('a', {'class': 'bigs'}):
+        id_link = bs_r.find('a', {'class': 'bigs'})['href']
 
-    link = 'http://www.ssm.gov.kg/blacklist/info/' + id
-
-    html = requests.get(link)
-    text = html.text
-    parsed_html = BeautifulSoup(text)
-
-    nakaz = parsed_html.body.find('p').text
-
-    if r.text[5555:5601].encode("utf-8") == 'Указанная фамилия в «Чёрном списке» не найдена':
-        result = {'nakaz': None, 'fio': None}
     else:
-        result = {'nakaz': nakaz, 'fio': name}
+        id_link = None
+
+    print id_link
+
+    if bs_r.body.find('a', {'class': 'bigs'}):
+        name = bs_r.body.find('a', {'class': 'bigs'}).text
+    else:
+        name = None
+
+    if id_link:
+
+        link = 'http://www.ssm.gov.kg' + id_link
+
+        html = requests.get(link)
+        text = html.text
+        parsed_html = BeautifulSoup(text)
+
+        nakaz = parsed_html.body.find('p').text
+
+    else:
+        nakaz = None
+
+    result = {'nakaz': nakaz, 'fio': name}
 
     return JsonResponse(dict(data=result))
