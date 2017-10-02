@@ -36,14 +36,11 @@ def blacklist_view(request):
 
     bs_r = BeautifulSoup(r.text)
 
-    # id = r.text[5700:5801]
     if bs_r.find('a', {'class': 'bigs'}):
         id_link = bs_r.find('a', {'class': 'bigs'})['href']
 
     else:
         id_link = None
-
-    print id_link
 
     if bs_r.body.find('a', {'class': 'bigs'}):
         name = bs_r.body.find('a', {'class': 'bigs'}).text
